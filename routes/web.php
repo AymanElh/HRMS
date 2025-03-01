@@ -1,10 +1,11 @@
 <?php
 
-use App\Livewire\DepartmentManagement;
-use App\Livewire\FormationManagement;
 use App\Livewire\JobManagement;
-use Illuminate\Support\Facades\Route;
 use App\Livewire\ContractManagement;
+use App\Livewire\FormationManagement;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\DepartmentManagement;
+use App\Http\Controllers\EmployeeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,8 @@ Route::get('/departments', DepartmentManagement::class)->name('departments.index
 Route::get('/formations', FormationManagement::class)->name('formations.index');
 Route::get('/jobs', JobManagement::class)->name('jobs.index');
 Route::get('/contracts', ContractManagement::class)->name('contracts.index');
+
+Route::resource('/employees', EmployeeController::class);
 
 //Route::get('/dashboard/users', [UserController::class, 'index'])->name('users.index');
 //Route::post('/dashboard/users', [UserController::class, 'store'])->name('users.store');

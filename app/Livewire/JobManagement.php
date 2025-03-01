@@ -59,6 +59,7 @@ class JobManagement extends Component
     public function store()
     {
         $this->validate();
+        // dd($this->department_id);
         Job::updateOrCreate(
             ['id' => $this->jobId ?? null],
             [

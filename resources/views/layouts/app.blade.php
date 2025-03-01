@@ -36,7 +36,9 @@
                               d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
-                <h1 class="text-xl font-semibold">Dashboard</h1>
+                <h1 class="text-xl font-semibold">
+                    {{ $header ?? 'Dashboard' }}
+                </h1>
             </div>
             <div class="flex items-center space-x-4">
                 <!-- Dark Mode Toggle -->
