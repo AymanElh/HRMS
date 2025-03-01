@@ -94,6 +94,17 @@
                         </div>
 
                         <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Department</label>
+                            <select id="department_id" wire:model="department_id" class="bg-gray-700 border-gray-600 text-white placeholder-gray-400 rounded-md shadow-sm w-full px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Department</option>
+                                @foreach($departments as $department)
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('department_id') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div>
                             <label for="description" class="block text-sm font-medium text-gray-300 mb-1">Description</label>
                             <textarea id="description" wire:model="description" placeholder="Description" rows="4"
                                       class="bg-gray-700 border-gray-600 text-white placeholder-gray-400 rounded-md shadow-sm w-full px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
