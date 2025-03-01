@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Models\User;
 use App\Models\Employee;
-use App\Http\Controllers\Controller;
+use App\Mail\ResetPassword;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\EmployeeRequest;
+use Illuminate\Support\Facades\Password;
 
 class EmployeeController
 {
@@ -14,7 +21,6 @@ class EmployeeController
     public function index()
     {
         $employees = Employee::all();
-        // dd($employees);
         return view('employees.index', ['employees' => $employees]);
     }
 
@@ -29,9 +35,49 @@ class EmployeeController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
-        //
+        // dd($request->input('profile_picture_path'));
+        $data = $request->all();
+
+        if($request->hasFile('profile_photo_path')) {
+            $data['profile_photo_path'] = $request->file('profile_photo_path')->store('images', 'public');
+        } else {
+            $data['profile_photo_path'] = "";
+        }
+        
+        $defaultPassword = '12345678';
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($defaultPassword),
+                'profile_photo_path' => $data['profile_photo_path']
+            ]);
+
+            // dump($user);
+            $employee = Employee::create([
+                'user_id' => $user->id,
+                'job_title_id' => $data['job_title_id'],
+                'salary' => $data['salary'],
+                'department_id' => $data['department']
+            ]);
+            // dd($employee);
+            
+            $token = Password::createToken($user);
+            Mail::to($user->email)->send(new ResetPassword($token, $user->name));
+            session()->flash('success', "Employee created successfully.");
+            DB::commit();
+            
+        } catch(\Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            session()->flash('failed', "Employee's account creation failed.");
+        }
+        return redirect()->route('employees.index');
     }
 
     /**

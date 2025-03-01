@@ -21,16 +21,16 @@
             <div class="mb-4">
                 <label for="profile_picture" class="block text-sm font-medium text-gray-300">Profile Picture</label>
                 <div class="mt-1 flex items-center">
-                    <input type="file" name="profile_picture" id="profile_picture" accept="image/*" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+                    <input type="file" name="profile_photo_path" id="profile_picture" accept="image/*" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
                 </div>
-                @error('profile_picture') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+                @error('profile_photo_path') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
             </div>
 
             <!-- Department -->
             <div class="mb-4">
                 <label for="department" class="block text-sm font-medium text-gray-300">Department</label>
                 <select name="department" wire:model="selectedDepartment" wire:change="jobsByDepartment($event.target.value)" id="department" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" required>
-                    <option value="">Select Department</option>
+                    <option value="" disabled>Select Department</option>
                     @foreach($departments as $department) 
                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                     @endforeach
@@ -41,8 +41,8 @@
             <!-- Position -->
             <div class="mb-4">
                 <label for="position" class="block text-sm font-medium text-gray-300">Position</label>
-                <select name="position" id="position" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" required>
-                    <option value="">Select Position</option>
+                <select name="job_title_id" id="position" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" required>
+                    <option value="" disabled>Select Position</option>
                     @foreach($jobs as $job)
                         <option value="{{ $job->id }}">{{ $job->title }}</option>
                     @endforeach
