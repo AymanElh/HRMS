@@ -25,14 +25,15 @@ class RoleSeeder extends Seeder
         $permissionManageDepartments = Permission::create(['name' => 'Manage Departments']);
         $permissionsManageContracts = Permission::create(['name' => 'Manage Contracts']);
         $permissionManageFormations = Permission::create(['name' => 'Manage Formations']);
-        $permissionAssignFormations = Permission::create(['name' => 'Assign Formations']);
         $permissionManageEmployees = Permission::create(['name' => 'Manage Employees']);
+        $permissionManageJobs = Permission::create(['name' => 'Manage Jobs']);
 
         $roleAdmin->givePermissionTo($permissionManageUsers);
         $roleAdmin->givePermissionTo($permissionManageDepartments);
         $roleAdmin->givePermissionTo($permissionsManageContracts);
         $roleAdmin->givePermissionTo($permissionManageFormations);
         $roleAdmin->givePermissionTo($permissionManageFormations);
+        $roleAdmin->givePermissionTo($permissionManageJobs);
 
         $user = User::find(1);
         $user->assignRole($roleAdmin);
