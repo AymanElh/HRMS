@@ -49,7 +49,7 @@
                 <tbody class="bg-gray-800 divide-y divide-gray-700">
                     @foreach($contracts as $contract)
                         <tr class="hover:bg-gray-700 transition-colors duration-200">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{{ $contract->user->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{{ $contract->employee->user->name }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $contract->type->type }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $contract->startDate }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $contract->endDate }}</td>
@@ -83,13 +83,14 @@
     
                 <!-- User Selection -->
                 <label for="user" class="block text-sm font-medium text-gray-300">User</label>
-                <select wire:model="user_id" id="user" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+                <select wire:model="employee_id" id="user" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
                     <option value="">Select User</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
+                    {{-- {{dd($employees);}} --}}
+                    @foreach($employees as $employee)
+                        <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
+                    @endforeach 
                 </select>
-                @error('user_id') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+                @error('employee_id') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
     
                 <!-- Contract Type Selection -->
                 <label for="contractType" class="block text-sm font-medium text-gray-300 mt-4">Contract Type</label>

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Job;
 use Livewire\Component;
+use App\Models\Department;
 
 class JobManagement extends Component
 {
@@ -13,21 +14,28 @@ class JobManagement extends Component
     public $jobId;
     public $isOpen = false;
     public $isEdit = false;
+    public $departments;
+    public $department_id;
 
     protected $rules = [
         'title' => 'required|string|max:255',
-        'description' => 'nullable|string'
+        'description' => 'nullable|string',
+        'department_id' => 'required'
     ];
 
     public function mount()
     {
         $this->resetInputFields();
+        $this->departments = Department::all();
     }
 
     public function render()
     {
         $this->jobs = Job::latest()->get();
-        return view('livewire.job-management', ['jobs' => $this->jobs]);
+        return view('livewire.job-management', [
+            'jobs' => $this->jobs,
+            'departments' => $this->departments
+        ]);
     }
 
     public function create()
@@ -39,10 +47,11 @@ class JobManagement extends Component
 
     public function edit($id)
     {
-        $job = Jobs::findOrFail($id);
+        $job = Job::findOrFail($id);
         $this->jobId = $id;
         $this->title = $job->title;
         $this->description = $job->description;
+        $this->department_id = $job->department_id;
         $this->isEdit = true;
         $this->isOpen = true;
     }
@@ -50,11 +59,13 @@ class JobManagement extends Component
     public function store()
     {
         $this->validate();
+        // dd($this->department_id);
         Job::updateOrCreate(
             ['id' => $this->jobId ?? null],
             [
                 'title' => $this->title,
-                'description' => $this->description
+                'description' => $this->description,
+                'department_id' => $this->department_id
             ]
         );
 
@@ -75,5 +86,6 @@ class JobManagement extends Component
         $this->title = '';
         $this->description = '';
         $this->jobId = null;
+        $this->department_id = null;
     }
 }

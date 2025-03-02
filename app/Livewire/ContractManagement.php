@@ -5,13 +5,14 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Contract;
+use App\Models\Employee;
 use App\Models\ContractType;
 
 class ContractManagement extends Component
 {
     public $contracts;
     public $contract_id;
-    public $user_id;
+    public $employee_id;
     public $startDate = '';
     public $endDate = '';
     public $contractType;
@@ -22,9 +23,9 @@ class ContractManagement extends Component
     public $searchBy = 'salary';
 
     protected $rules = [
-        'user_id' => 'required|exists:users,id',
+        'employee_id' => 'required|exists:employees,id',
         'contractType' => 'required|exists:contract_types,id',
-        'startDate' => 'required|date',
+        'startDate' => 'required|date|after:now',
         'endDate' => 'required|date|after_or_equal:startDate',
         'salary' => 'required|numeric|min:0',
         'status' => 'required|in:active,finished',
@@ -47,7 +48,7 @@ class ContractManagement extends Component
         if($this->contract_id) {
             $contract = Contract::find($this->contract_id);
             $contract->update([
-                'user_id' => $this->user_id,
+                'employee_id' => $this->employee_id,
                 'contractType' => $this->contractType,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
@@ -57,7 +58,7 @@ class ContractManagement extends Component
             session()->flash('message', "Contract Updated Successfully");
         } else {
             Contract::create([
-                'user_id' => $this->user_id,
+                'employee_id' => $this->employee_id,
                 'contractType' => $this->contractType,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
@@ -76,7 +77,7 @@ class ContractManagement extends Component
     {
         $contract = Contract::find($id);
         $this->contract_id = $contract->id;
-        $this->user_id = $contract->user_id;
+        $this->employee_id = $contract->employee_id;
         $this->contractType = $contract->contractType;
         $this->startDate = $contract->startDate;
         $this->endDate = $contract->endDate;
@@ -95,7 +96,7 @@ class ContractManagement extends Component
 
     private function resetInputsFields()
     {
-        $this->user_id = '';
+        $this->employee_id = '';
         $this->contractType = '';
         $this->startDate = '';
         $this->endDate = '';
@@ -117,7 +118,7 @@ class ContractManagement extends Component
     public function updatedSearch()
     {
         $this->contracts = Contract::where('status', 'LIKE', '%' . $this->search . '%')
-            ->orWhereHas('user', function ($query) {
+            ->orWhereHas('employee.user', function ($query) {
                 // dump($query);
                 $query->where('name', 'LIKE', '%' . $this->search . '%');
             })
@@ -130,8 +131,9 @@ class ContractManagement extends Component
 
     public function render()
     {
+        // dd(Employee::all());
         return view('livewire.contract-management', [
-            'users' => User::all(),
+            'employees' => Employee::all(),
             'contractTypes' => ContractType::all()
         ]);
     }
