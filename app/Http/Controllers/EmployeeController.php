@@ -93,15 +93,43 @@ class EmployeeController
      */
     public function edit(Employee $employee)
     {
-        //
+        return view('employees.edit', ['employee' => $employee]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employee $employee)
+    public function update(EmployeeRequest $request, Employee $employee)
     {
-        //
+        $data = $request->all();
+
+        try {
+            \DB::beginTransaction();
+
+            if($request->hasFile('profile_photo_path')) {
+                $data['profile_photo_path'] = $request->file('profile_photo_path');
+            }
+
+            $employee->user->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'profile_photo_path' => $data['profile_photo_path'] ?? $employee->user->profile_photo_path
+            ]);
+
+            $employee->update([
+                'job_title_id' => $data['job_title_id'],
+                'salary' => $data['salary'],
+                'department_id' => $data['department']
+            ]);
+
+            \DB::commit();
+            session()->flash('success', "Employee updated successfully");
+        } catch(\Exception $e) {
+            \DB::rollback();
+            dd($e->getMessage());
+        }
+        
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -109,6 +137,8 @@ class EmployeeController
      */
     public function destroy(Employee $employee)
     {
-        //
+        // dd($employee);
+        $employee->delete();
+        return redirect()->route('employees.index');
     }
 }

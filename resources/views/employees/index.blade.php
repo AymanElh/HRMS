@@ -80,12 +80,16 @@
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->department->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-3">
-                                    <button class="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                    <a href="{{ route('employees.edit', $employee) }}" class="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                                         Edit
-                                    </button>
-                                    <button class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                        Delete
-                                    </button>
+                                    </a>
+                                    <form action="{{ route('employees.destroy', $employee) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                            Delete
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

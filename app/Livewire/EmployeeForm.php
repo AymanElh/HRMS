@@ -8,15 +8,21 @@ use App\Models\Department;
 
 class EmployeeForm extends Component
 {
+    public $employee;
     public $departments = [];
     public $jobs = [];
 
     public $selectedDepartment = '';
 
-    public function mount() 
+    public function mount($employee = null) 
     {
+        $this->employee = $employee;
         $this->departments = Department::orderBy('name')->get();
-        // dd($this->departments);
+        if ($employee) {
+            $this->selectedDepartment = $employee->department_id;
+            $this->jobsByDepartment($employee->department_id);
+        }
+        // dd($this->employee);
     }
 
     public function jobsByDepartment($department) 
