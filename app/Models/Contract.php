@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     protected $fillable = [
-        'user_id',
+        'employee_id',
         'contractType',
         'startDate',
         'endDate',
@@ -15,9 +15,9 @@ class Contract extends Model
         'status'
     ];
 
-    public function user()
+    public function employee()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function type()

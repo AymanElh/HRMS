@@ -40,12 +40,12 @@ class EmployeeController
         // dd($request->input('profile_picture_path'));
         $data = $request->all();
 
-        if($request->hasFile('profile_photo_path')) {
+        if ($request->hasFile('profile_photo_path')) {
             $data['profile_photo_path'] = $request->file('profile_photo_path')->store('images', 'public');
         } else {
             $data['profile_photo_path'] = "";
         }
-        
+
         $defaultPassword = '12345678';
 
         DB::beginTransaction();
@@ -66,13 +66,14 @@ class EmployeeController
                 'department_id' => $data['department']
             ]);
             // dd($employee);
-            
+
             $token = Password::createToken($user);
             Mail::to($user->email)->send(new ResetPassword($token, $user->name));
             session()->flash('success', "Employee created successfully.");
             DB::commit();
-            
-        } catch(\Exception $e) {
+
+
+        } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());
             session()->flash('failed', "Employee's account creation failed.");
@@ -83,10 +84,26 @@ class EmployeeController
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee)
+    // public function show(Employee $employee)
+    // {
+    //     return view('employees.show', [
+    //         'employee' => $employee->load(['user', 'department', 'position'])
+    //     ]);
+    // }
+
+    public function show($employeeId)
     {
-        //
+        $employee = Employee::with([
+            'user',
+            'contracts' => function ($query) {
+                $query->with('type')
+                    ->orderBy('startDate', 'asc');
+            }
+        ])->findOrFail($employeeId);
+
+        return view('employees.show', compact('employee'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -106,7 +123,7 @@ class EmployeeController
         try {
             \DB::beginTransaction();
 
-            if($request->hasFile('profile_photo_path')) {
+            if ($request->hasFile('profile_photo_path')) {
                 $data['profile_photo_path'] = $request->file('profile_photo_path');
             }
 
@@ -124,11 +141,11 @@ class EmployeeController
 
             \DB::commit();
             session()->flash('success', "Employee updated successfully");
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             \DB::rollback();
             dd($e->getMessage());
         }
-        
+
         return redirect()->route('employees.index');
     }
 
