@@ -75,16 +75,14 @@
                             <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a2 2 0 012-2h3.5a1 1 0 010 2H6v14h12V7h-3.5a1 1 0 010-2H18a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"/>
                             </svg>
-                            <span>Start Date: {{ ($currentContract->startDate) }}</span>
+                            <span>Start Date: {{ \Carbon\Carbon::parse($currentContract->startDate)->toFormattedDayDateString() }}</span>
                         </div>
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-6 8h6m-6 4h6M5 21h14a2 2 0 002-2v-5H3v5a2 2 0 002 2z"/>
                             </svg>
                             <span>End Date: 
-                                {{ $currentContract->endDate 
-                                    ? ($currentContract->endDate)
-                                    : 'Indefinite' }}
+                                {{ $currentContract->endDate ? \Carbon\Carbon::parse($currentContract->endDate)->toFormattedDayDateString() : 'Indefinite' }}
                             </span>
                         </div>
                         <div class="flex items-center">
@@ -97,7 +95,7 @@
                             <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h6m2 8V7a2 2 0 00-2-2h-5.172a2 2 0 01-1.414-.586L9 2.414A2 2 0 007.586 2H5a2 2 0 00-2 2v11a2 2 0 002 2h4"/>
                             </svg>
-                            <span>Status: {{ ucfirst($currentContract->status) }}</span>
+                            <span>Status: {{ $currentContract->status }}</span>
                         </div>
                     </div>
                 </div>
