@@ -20,7 +20,16 @@ class EmployeeController
      */
     public function index()
     {
-        $employees = Employee::all();
+        $user = auth()->user();
+        // dump($user);
+
+        if($user->hasRole('Manager')) {
+            $managerDepartment = $user->employee->department_id;
+            $employees = Employee::where('department_id', $managerDepartment)->get();
+        } else {
+            $employees = Employee::all();
+        }
+        // dd($employees);
         return view('employees.index', ['employees' => $employees]);
     }
 
