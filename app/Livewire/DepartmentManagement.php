@@ -13,6 +13,7 @@ class DepartmentManagement extends Component
     public $departmentId;
     public $isOpen = false;
     public $isEdit = false;
+    public $search = '';
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -26,7 +27,10 @@ class DepartmentManagement extends Component
 
     public function render()
     {
-        $this->departments = Department::latest()->get();
+        $this->departments = Department::query()->when($this->search, function($query) {
+            return $query->where('name', 'like', '%' . $this->search . '%');
+        })
+        ->get();
         return view('livewire.department-management');
     }
 

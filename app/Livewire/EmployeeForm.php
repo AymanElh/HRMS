@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Employee;
 use App\Models\Job;
 use Livewire\Component;
 use App\Models\Department;
@@ -14,8 +15,9 @@ class EmployeeForm extends Component
     public $jobs = [];
     public $roles;
     public $selectedDepartment = '';
+    public $search = '';
 
-    public function mount($employee = null) 
+    public function mount($employee = null)
     {
         $this->employee = $employee;
         // dump($this->employee);
@@ -23,8 +25,9 @@ class EmployeeForm extends Component
         if($user->hasRole('Manager')) {
             $this->departments = Department::where('id', $user->employee->department_id)->get();
             // dd($this->departments);
-        } 
+        }
         else {
+            // Get all departments
             $this->departments = Department::orderBy('name')->get();
         }
 
@@ -32,7 +35,7 @@ class EmployeeForm extends Component
         if($user->hasRole('Admin')) {
             $this->roles = Role::whereNotIn('name', ['admin'])->get();
             // dd($this->roles);
-        } 
+        }
         elseif ($user->hasRole('HR')) {
             $this->roles = Role::whereIn('name', ['HR', 'Manager', 'Employee']);
         }
@@ -42,7 +45,7 @@ class EmployeeForm extends Component
         }
     }
 
-    public function jobsByDepartment($department) 
+    public function jobsByDepartment($department)
     {
         $this->jobs = Job::where('department_id', $department)->get();
     }
