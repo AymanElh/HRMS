@@ -10,4 +10,9 @@ class Formation extends Model
     /** @use HasFactory<\Database\Factories\FormationFactory> */
     use HasFactory;
     protected $fillable = ['title', 'description', 'duration'];
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_formation');
+    }
 }
