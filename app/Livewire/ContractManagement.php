@@ -45,6 +45,16 @@ class ContractManagement extends Component
     public function store()
     {
         $this->validate();
+        
+        // if(!$this->contract_id) {
+        //     $hasAlreadyContract = Contract::where('employee_id', $this->employee_id)->where('status', 'active')->exists();
+        //     if($hasAlreadyContract) {
+        //         session()->flash('error', 'The Employee has already an active contract');
+        //         $this->resetInputsFields();
+        //         $this->closeModal(); 
+        //         return;
+        //     }
+        // }
         if($this->contract_id) {
             $contract = Contract::find($this->contract_id);
             $contract->update([

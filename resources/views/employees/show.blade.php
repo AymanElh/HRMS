@@ -135,5 +135,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <livewire:employee-formations :employee="$employee" />
 </x-app-layout>

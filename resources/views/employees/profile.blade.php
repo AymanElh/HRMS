@@ -12,11 +12,19 @@
                 <div class="p-6 relative">
                     <div class="flex items-center space-x-6">
                         <!-- Profile Picture -->
-                        <div class="flex-shrink-0">
-                            <div class="h-32 w-32 rounded-full bg-indigo-600 flex items-center justify-center">
-                                <span class="text-4xl font-bold text-white">J</span>
+                        @if($employee->user->profile_photo_path)
+                            <img class="h-32 w-32 rounded-full object-cover" 
+                            src="{{ Storage::url($employee->user->profile_photo_path) }}" 
+                            alt="{{ $employee->user->name }}">
+                        @else
+                            <div class="flex-shrink-0">
+                                <div class="h-32 w-32 rounded-full bg-indigo-600 flex items-center justify-center">
+                                    <span class="text-4xl font-bold text-white">
+                                        {{strtoupper(substr($employee->user->name, 0, 1))}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <!-- Basic Info -->
                         <div>
                             <h3 class="text-2xl font-bold text-white">{{$employee->user->name}}</h3>

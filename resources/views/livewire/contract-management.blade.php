@@ -1,6 +1,10 @@
 <div class="space-y-6">
     <!-- Flash Message -->
-    @if(session()->has('message'))
+    @if(session()->has('error'))
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded shadow-lg">
+            {{ session('error') }}
+        </div>
+    @elseif(session()->has('message'))
         <div class="bg-green-500 text-white p-3 rounded-md shadow-lg transform transition-all duration-300 ease-in-out">
             <div class="flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
