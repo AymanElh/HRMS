@@ -39,3 +39,7 @@ Route::middleware('role:Admin')->group(function() {
     Route::get('/jobs', JobManagement::class)->name('jobs.index');
     Route::get('/contracts', ContractManagement::class)->name('contracts.index');
 });
+
+
+
+Route::get('/employees/profile/{employee}', [EmployeeController::class, 'profile'])->name('employees.profile');
