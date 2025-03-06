@@ -40,6 +40,18 @@
                     </a>
                 </li>
             @endcan
+            @can('Manage Profile')
+                <li>
+                    <a href="{{ route('employees.profile', auth()->user()) }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Profile
+                    </a>
+                </li>
+            @endcan
+            <li>
+                <a href="" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                    Vacation Request
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

@@ -68,6 +68,8 @@ class EmployeeController
                 'profile_photo_path' => $data['profile_photo_path']
             ]);
 
+            $user->assignRole($data['role']);
+
             // dump($user);
             $employee = Employee::create([
                 'user_id' => $user->id,
@@ -76,6 +78,8 @@ class EmployeeController
                 'department_id' => $data['department']
             ]);
             // dd($employee);
+
+
 
             $token = Password::createToken($user);
             Mail::to($user->email)->send(new ResetPassword($token, $user->name));
@@ -171,12 +175,15 @@ class EmployeeController
 
     public function profile($id)
     {
+        // dd($id);
         $employee = Employee::with(['user', 'position', 'department', 'formations',
             'contracts' => function($query) {
                 $query->with('type')->orderby('startDate');
                 // dd($query->toSql());
             },
-        ])->findOrFail($id);
+        ])->where('user_id', $id)->firstOrFail();
+
+        // dd($employee);
 
         $stats = [
             'totalContracts' => $employee->contracts->count(),
