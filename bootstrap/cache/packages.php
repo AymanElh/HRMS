@@ -1,4 +1,15 @@
 <?php return array (
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+  ),
   'laravel/fortify' => 
   array (
     'providers' => 
@@ -32,6 +43,13 @@
     'providers' => 
     array (
       0 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    ),
+  ),
+  'laravel/telescope' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Telescope\\TelescopeServiceProvider',
     ),
   ),
   'laravel/tinker' => 

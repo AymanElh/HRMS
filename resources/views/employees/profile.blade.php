@@ -136,30 +136,32 @@
                         </div>
                     </div>
                     <!-- Current Contract Details -->
-                    <div class="bg-gray-700 p-6 rounded-lg mt-8">
-                        <h5 class="text-lg font-semibold text-white mb-4">Current Contract Details</h5>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-gray-400">Contract Type</p>
-                                <p class="text-white">{{ $stats['current_contract']->type->type }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-400">Start Date</p>
-                                <p class="text-white">{{ $stats['current_contract']->startDate }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-400">Duration</p>
-                                <p class="text-white">Unlimited</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-400">Status</p>
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">
-                                    {{-- {{ $stats['current_contract']->endDate->diffInDays(now()) < 0 ? 'Finished' : 'Active' }} --}}
-                                    Active
-                                </span>
+                    @if($stats['current_contract'])
+                        <div class="bg-gray-700 p-6 rounded-lg mt-8">
+                            <h5 class="text-lg font-semibold text-white mb-4">Current Contract Details</h5>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-gray-400">Contract Type</p>
+                                    <p class="text-white">{{ $stats['current_contract']->type->type }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Start Date</p>
+                                    <p class="text-white">{{ $stats['current_contract']->startDate }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Duration</p>
+                                    <p class="text-white">Unlimited</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Status</p>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">
+                                        {{-- {{ $stats['current_contract']->endDate->diffInDays(now()) < 0 ? 'Finished' : 'Active' }} --}}
+                                        Active
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             </div>

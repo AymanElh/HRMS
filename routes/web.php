@@ -43,3 +43,13 @@ Route::middleware('role:Admin')->group(function() {
 
 
 Route::get('/employees/profile/{employee}', [EmployeeController::class, 'profile'])->name('employees.profile');
+
+
+Route::get('/vacations', function() {
+    return view('vacations.index');
+})->name('vacations.index');
+
+
+Route::get('/vacation-approvals', function () {
+    return view('vacations.approvals');
+})->name('vacation.approvals');
