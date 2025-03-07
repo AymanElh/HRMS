@@ -63,7 +63,8 @@ class EmployeeController
                 'user_id' => $user->id,
                 'job_title_id' => $data['job_title_id'],
                 'salary' => $data['salary'],
-                'department_id' => $data['department']
+                'department_id' => $data['department'],
+                'hire_date' => $data['hire_date']
             ]);
             // dd($employee);
 

@@ -63,6 +63,18 @@
                 @error('salary') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
             </div>
 
+            <!-- Hire Date -->
+            <div class="mb-4">
+                <label for="hire_date" class="block text-sm font-medium text-gray-300">Hire Date</label>
+                <input type="date" 
+                    name="hire_date" 
+                    id="hire_date" 
+                    value="{{ old('hire_date', $employee->hire_date ?? '') }}"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white"
+                    required>
+                @error('hire_date') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+            </div>
+
             <!-- Submit Button -->
             <div class="flex justify-end space-x-3">
                 <a href="{{ route('employees.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
