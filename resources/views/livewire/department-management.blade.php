@@ -1,4 +1,10 @@
 <div class="space-y-6">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Departments Managements') }}
+        </h2>
+    </x-slot>
+
     <!-- Flash Message -->
     @if (session()->has('message'))
         <div class="bg-green-500 text-white p-3 rounded-md shadow-lg transform transition-all duration-300 ease-in-out">
@@ -12,12 +18,16 @@
     @endif
 
     <!-- Add Department Button -->
-    <button wire:click="create" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-        </svg>
-        Add Department
-    </button>
+    <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Manage Employees</h2>
+        <input type="text" wire:model.live="search" id="salary" class=" px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" placeholder="Search...">
+        <button wire:click="create" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add Department
+        </button>
+    </div>
 
     <!-- Departments Table -->
     <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-700">

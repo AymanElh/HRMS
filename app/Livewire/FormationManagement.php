@@ -14,6 +14,7 @@ class FormationManagement extends Component
     public $formationId;
     public $isOpen = false;
     public $isEdit = false;
+    public $search = '';
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -26,7 +27,9 @@ class FormationManagement extends Component
 
     public function render()
     {
-        $this->formations = Formation::latest()->get();
+        $this->formations = Formation::query()->when($this->search, function($query) {
+            return $query->where('title', 'like', '%' . $this->search . '%');
+        })->get();
         return view('livewire.formation-management');
     }
 

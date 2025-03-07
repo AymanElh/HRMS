@@ -19,6 +19,9 @@
     <div class="flex justify-between items-center">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Manage Formations</h2>
 
+        <!-- search button -->
+        <input type="text" wire:model.live="search" id="salary" class=" px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" placeholder="Search...">
+
         <!-- Add Formation Button -->
         <button wire:click="create" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">

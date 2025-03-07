@@ -3,7 +3,7 @@
         <form method="POST" action="{{ $employee ?? null ? route('employees.update', $employee->id) : route('employees.store') }}" enctype="multipart/form-data">
             @csrf
             {{-- {{ dd($employee) }} --}}
-            @if($employee ?? null) 
+            @if($employee ?? null)
                 @method('PUT')
             @endif
             <!-- Name -->
@@ -34,7 +34,7 @@
                 <label for="department" class="block text-sm font-medium text-gray-300">Department</label>
                 <select name="department" wire:model="selectedDepartment" wire:change="jobsByDepartment($event.target.value)" id="department" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" required>
                     <option value="" disabled>Select Department</option>
-                    @foreach($departments as $department) 
+                    @foreach($departments as $department)
                         <option value="{{ $department->id }}" {{ old('department', $employee->department_id ?? '') ? 'selected' : '' }}>{{ $department->name }}</option>
                     @endforeach
                 </select>
@@ -51,6 +51,20 @@
                     @endforeach
                 </select>
                 @error('position') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Role Selection -->
+            <div class="mb-4">
+                <label for="role" class="block text-sm font-medium text-gray-300">Role</label>
+                <select name="role" id="role" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white" required>
+                    <option value="" disabled selected>Select Role</option>
+                    @foreach($roles as $role)
+                            <option value="{{ $role->name }}">
+                                {{ $role->name }}
+                            </option>
+                    @endforeach
+                </select>
+                @error('role') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
             </div>
 
             <!-- Salary -->

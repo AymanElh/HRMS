@@ -27,4 +27,9 @@ class Employee extends Model
     {
         return $this->hasMany(Contract::class, 'employee_id');
     }
+
+    public function formations()
+    {
+        return $this->belongsToMany(Formation::class, 'employee_formation');
+    }
 }

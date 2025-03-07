@@ -34,6 +34,7 @@
                 <thead class="bg-gray-700">
                 <tr>
                     <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
+                    <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Department</th>
                     <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Description
                     </th>
@@ -45,6 +46,7 @@
                 @foreach ($jobs as $job)
                     <tr class="hover:bg-gray-700 transition-colors duration-200">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{{ $job->title }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{{ $job->department->name }}</td>
                         <td class="px-6 py-4 text-sm text-gray-300">{{ $job->description }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-3">

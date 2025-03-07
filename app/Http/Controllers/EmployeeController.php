@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Formation;
 use App\Mail\ResetPassword;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,16 @@ class EmployeeController
      */
     public function index()
     {
-        $employees = Employee::all();
+        $user = auth()->user();
+        // dump($user);
+
+        if($user->hasRole('Manager')) {
+            $managerDepartment = $user->employee->department_id;
+            $employees = Employee::where('department_id', $managerDepartment)->get();
+        } else {
+            $employees = Employee::all();
+        }
+        // dd($employees);
         return view('employees.index', ['employees' => $employees]);
     }
 
@@ -158,5 +168,25 @@ class EmployeeController
         // dd($employee);
         $employee->delete();
         return redirect()->route('employees.index');
+    }
+
+    public function profile($id)
+    {
+        $employee = Employee::with(['user', 'position', 'department', 'formations',
+            'contracts' => function($query) {
+                $query->with('type')->orderby('startDate');
+                // dd($query->toSql());
+            },
+        ])->findOrFail($id);
+
+        $stats = [
+            'totalContracts' => $employee->contracts->count(),
+            'formations' => Formation::all()->count(),
+            'current_contract' => $employee->contracts->where('status', 'active')->first()
+        ]; 
+        // dd($stats);
+
+
+        return view('employees.profile', ['employee' => $employee, 'stats' => $stats]);
     }
 }
