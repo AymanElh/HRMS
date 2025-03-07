@@ -19,7 +19,7 @@
                 @forelse($pendingRequests as $request)
                     <tr>
                         <td class="px-6 py-4 text-gray-200">
-                            {{ $request->employee->full_name }}
+                            {{ $request->employee->user->name }}
                         </td>
                         <td class="px-6 py-4 text-gray-200">
                             {{ \Carbon\Carbon::parse($request->start_date)->format('M d') }} - {{ \Carbon\Carbon::parse($request->end_date)->format('M d, Y') }}
@@ -43,22 +43,41 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 text-gray-200 space-x-2">
-                            @if($userRole === 'manager' || ($userRole === 'hr' && $request->manager_validated_at))
-                                <button wire:click="approve({{ $request->id }})" 
-                                        class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
-                                    Approve
-                                </button>
-                                <button wire:click="openRejectModal({{ $request->id }})" 
-                                        class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                    Reject
-                                </button>
+                            @if($userRole === 'manager')
+                                @if($request->status === 'pending')
+                                    <button wire:click="approve({{ $request->id }})" 
+                                            class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                        Approve
+                                    </button>
+                                    <button wire:click="openRejectModal({{ $request->id }})" 
+                                            class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                        Reject
+                                    </button>
+                                @else
+                                    <span class="text-gray-400">
+                                        {{ ucfirst(str_replace('_', ' ', $request->status)) }}
+                                    </span>
+                                @endif
                             @else
-                                <span class="text-gray-400">Awaiting Manager Approval</span>
+                                @if($request->status === 'manager_approved')
+                                    <button wire:click="approve({{ $request->id }})" 
+                                            class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                        Approve
+                                    </button>
+                                    <button wire:click="openRejectModal({{ $request->id }})" 
+                                            class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                        Reject
+                                    </button>
+                                @else
+                                    <span class="text-gray-400">
+                                        {{ $request->status === 'pending' ? 'Awaiting Manager Approval' : ucfirst(str_replace('_', ' ', $request->status)) }}
+                                    </span>
+                                @endif
                             @endif
                         </td>
-                    </tr>
                 @empty
                     <tr>
+                        
 
                         <td colspan="6" class="px-6 py-4 text-center text-gray-400">
                             No pending requests found
@@ -67,6 +86,76 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    <!-- History Table -->
+    <div class="mt-10">
+        <h2 class="text-xl font-bold mb-6 text-white">Request History</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-600">
+                <thead class="bg-gray-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Employee</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Dates</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Days</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Reason</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Final Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Comments</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-800 divide-y divide-gray-700">
+                    @forelse($historyRequests as $request)
+                        <tr>
+                            <td class="px-6 py-4 text-gray-200">
+                                {{ $request->employee->user->name }}
+                            </td>
+                            <td class="px-6 py-4 text-gray-200">
+                                {{ \Carbon\Carbon::parse($request->start_date)->format('M d') }} - {{ \Carbon\Carbon::parse($request->end_date)->format('M d, Y') }}
+                            </td>
+                            <td class="px-6 py-4 text-gray-200">
+                                {{ $request->total_days }}
+                            </td>
+                            <td class="px-6 py-4 text-gray-200">
+                                {{ $request->reason }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ $request->status === 'approved' ? 'bg-green-900 text-green-200' : 
+                                    ($request->status === 'hr_rejected' || $request->status === 'manager_rejected' ? 'bg-red-900 text-red-200' : 
+                                    'bg-gray-900 text-gray-200') }}">
+                                    {{ ucfirst(str_replace('_', ' ', $request->status)) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-200">
+                                @if($request->manager_comments)
+                                    <div class="text-sm">
+                                        <span class="text-gray-400">Manager:</span> {{ $request->manager_comments }}
+                                    </div>
+                                @endif
+                                @if($request->hr_comments)
+                                    <div class="text-sm">
+                                        <span class="text-gray-400">HR:</span> {{ $request->hr_comments }}
+                                    </div>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6">
+                                <div class="flex flex-col items-center justify-center py-12">
+                                    <div class="text-gray-400 mb-4">
+                                        <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm text-gray-400">No request history available</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Reject Modal -->

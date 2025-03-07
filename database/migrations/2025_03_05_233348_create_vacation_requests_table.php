@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('manager_validated_at')->nullable();
             $table->foreignId('hr_id')->nullable()->references('id')->on('employees')->onDelete('cascade');
             $table->timestamp('hr_validated_at')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'manager_approved', 'hr_approved', 'manager_rejected', 'hr_rejected'])->default('pending');
             $table->text('hr_comments')->nullable();
             $table->text('manager_comments')->nullable();
             $table->text('execuse')->nullable();

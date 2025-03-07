@@ -19,25 +19,28 @@ class VacationApprovals extends Component
         if(!$user) {
             dd("user is not authenticated");
         }
-        $this->userRole = $user->hasRole('hr') ? 'hr' : 'manager';
+        $this->userRole = $user->hasRole('HR') ? 'hr' : 'manager';
     }
 
     public function approve($requestId)
     {
+        // dd($requestId);
         $request = VacationRequest::findOrFail($requestId);
-        
+        // dd(auth()->user()->employee->id);
         if ($this->userRole === 'manager') {
             $request->update([
-                'manager_id' => auth()->id(),
+                'manager_id' => auth()->user()->employee->id,
                 'manager_validated_at' => now(),
                 'status' => 'manager_approved'
             ]);
             session()->flash('message', 'Request approved by manager, waiting for HR approval.');
         } else {
             // Only HR can approve if manager has already approved
+            // dd($request);
             if ($request->manager_validated_at) {
+                // dd("manager approved");
                 $request->update([
-                    'hr_id' => auth()->id(),
+                    'hr_id' => auth()->user()->employee->id,
                     'hr_validated_at' => now(),
                     'status' => 'approved'
                 ]);
@@ -60,14 +63,14 @@ class VacationApprovals extends Component
         
         if ($this->userRole === 'manager') {
             $request->update([
-                'manager_id' => auth()->id(),
+                'manager_id' => auth()->user()->employee->id,
                 'manager_validated_at' => now(),
                 'manager_comments' => $this->rejectReason,
                 'status' => 'manager_rejected'
             ]);
         } else {
             $request->update([
-                'hr_id' => auth()->id(),
+                'hr_id' => auth()->user()->employee->id,
                 'hr_validated_at' => now(),
                 'hr_comments' => $this->rejectReason,
                 'status' => 'hr_rejected'
@@ -81,22 +84,29 @@ class VacationApprovals extends Component
 
     public function render()
     {
-        // $query = VacationRequest::with(['employee', 'manager', 'hr'])
-        //     ->when($this->userRole === 'manager', function($query) {
-        //         return $query->whereHas('employee', function($q) {
-        //             $q->where('manager_id', auth()->id());
-        //         })->whereIn('status', ['pending', 'manager_approved']);
-        //     })
-        //     ->when($this->userRole === 'hr', function($query) {
-        //         return $query->whereIn('status', ['pending', 'manager_approved']);
-        //     })
-        //     ->latest();
+        if($this->userRole === 'manager') {
+            // dump('manager');
+            $pendingRequests = VacationRequest::where('status', 'pending')->latest()->get();
+            $historyRequests = VacationRequest::whereIn('status', ['approved', 'manager_rejected', 'hr_rejected'])
+            ->whereHas('employee', function($query) {
+                $query->where('manager_id', auth()->user()->employee->id);
+            })
+            ->latest()
+            ->get();
+        }
+        else {
+            // dump('hr');
+            $pendingRequests = VacationRequest::whereIn('status', ['pending', 'manager_approved'])->latest()->get();
+            $historyRequests = VacationRequest::whereIn('status', ['approved', 'manager_rejected', 'hr_rejected'])
+            ->latest()
+            ->get();
+        }
 
-        $query = VacationRequest::where('status', 'pending');
-
+        // dd($pendingRequests);
         return view('livewire.vacation-approvals', [
-            'pendingRequests' => $query->get(),
-            'userRole' => $this->userRole
+            'pendingRequests' => $pendingRequests,
+            'userRole' => $this->userRole,
+            'historyRequests' => $historyRequests
         ]);
     }
 }

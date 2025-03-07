@@ -15,9 +15,9 @@ class VacationRequest extends Model
         'reason',
         'status',
         'manager_id',
-        'manager_approval_at',
+        'manager_validated_at',
         'hr_id',
-        'hr_approval_at',
+        'hr_validated_at',
         'hr_comments',
         'manager_comments'
     ];

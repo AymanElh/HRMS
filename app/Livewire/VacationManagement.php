@@ -45,16 +45,15 @@ class VacationManagement extends Component
         // Calculate years of service
         $employmentStartDate = $this->employee->created_at;
         $yearsOfService = $employmentStartDate->diffInYears(Carbon::now());
-        // Calculate base balance
+
         if ($yearsOfService < 1) {
-            // If less than 1 year: 1.5 days per month
             $monthsWorked = $employmentStartDate->diffInMonths(Carbon::now());
             $balance = $monthsWorked * 1.5;
-            dump("balance 1", $balance);
+            // dump("balance 1", $balance);
         } else {
             // Base 18 days + 0.5 days per year after first year
             $balance = intval(18 + (($yearsOfService - 1) * 0.5));
-            dump($balance);
+            // dump($balance);
         }
         // dd();
         return [
@@ -97,14 +96,14 @@ class VacationManagement extends Component
         // dd(Carbon::parse($this->start_date)->diffIndays(Carbon::now()));
         if (Carbon::now()->diffInDays(Carbon::parse($this->start_date)) < 7) {
             $this->addError('start_date', 'Vacation requests must be submitted at least 7 days in advance.');
-            dd("error1");
+            dd("start date must be greater that 7 days");
             return;
         }
         // dd($this->vacationBalance->current_balance);
         if ($this->totalDays > $this->vacationBalance->current_balance) {
             $this->addError('end_date', 'Insufficient vacation balance. You only have ' . 
                 number_format($this->vacationBalance->current_balance, 1) . ' days available.');
-                dd("error2");
+                dd("Invalid balance");
             return;
         }
 

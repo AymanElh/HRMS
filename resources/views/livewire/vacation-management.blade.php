@@ -6,8 +6,7 @@
             <p class="text-lg text-gray-200">
                 Available Days: 
                 <span class="font-bold text-indigo-400">
-                    {{-- {{ number_format($vacationBalance->available_days, 1) }} --}}
-                    20
+                    {{ number_format($vacationBalance->available_days, 1) }}
                 </span>
             </p>
             <p class="text-sm text-gray-400">
@@ -102,7 +101,7 @@
                             <td class="px-6 py-4">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                     {{ $request->status === 'approved' ? 'bg-green-900 text-green-200' : 
-                                       ($request->status === 'rejected' ? 'bg-red-900 text-red-200' : 
+                                       ($request->status === 'rejected' || $request->status === 'manager_rejected' || $request->status === 'hr_rejected' ? 'bg-red-900 text-red-200' : 
                                        'bg-yellow-900 text-yellow-200') }}">
                                     {{ ucfirst($request->status) }}
                                 </span>
