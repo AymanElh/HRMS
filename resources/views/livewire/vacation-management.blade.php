@@ -1,4 +1,3 @@
-<!-- filepath: /c:/Users/Youcode/Desktop/Briefs/HRMS/resources/views/livewire/vacation-management.blade.php -->
 <div class="p-6 bg-gray-800 rounded-lg shadow-lg">
     <!-- Vacation Balance Section -->
     <div class="mb-8">

@@ -48,3 +48,8 @@ Route::get('/employees/profile/{employee}', [EmployeeController::class, 'profile
 Route::get('/vacations', function() {
     return view('vacations.index');
 })->name('vacations.index');
+
+
+Route::get('/vacation-approvals', function () {
+    return view('vacations.approvals');
+})->name('vacation.approvals');
