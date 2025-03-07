@@ -53,3 +53,11 @@ Route::get('/vacations', function() {
 Route::get('/vacation-approvals', function () {
     return view('vacations.approvals');
 })->name('vacation.approvals');
+
+Route::get('/recovery-days', function() {
+    return view('recovery-days.index');
+})->name('recovery-days.index');
+
+Route::get('/recovery-days-approvals', function() {
+    return view('recovery-days.approvals');
+})->name('recovery-days.approvals');
