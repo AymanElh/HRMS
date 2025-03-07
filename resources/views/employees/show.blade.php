@@ -136,5 +136,6 @@
             </div>
         </div>
 
+        <livewire:extra-work-days-management :employee="$employee" />
         <livewire:employee-formations :employee="$employee" />
 </x-app-layout>
