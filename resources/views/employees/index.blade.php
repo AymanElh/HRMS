@@ -68,7 +68,7 @@
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Email</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Position</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Department</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Job</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Hire Date</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Role</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -80,7 +80,7 @@
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->user->email }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->position->title }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->department->name }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->position->title }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->hire_date }}</td>
                             <td class="px-6 py-4 text-sm text-gray-300">{{ $employee->user->getRoleNames()->implode(',') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-3">
