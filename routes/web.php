@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Employee;
 use App\Livewire\JobManagement;
 use App\Livewire\ContractManagement;
 use Illuminate\Support\Facades\Auth;
@@ -7,7 +8,7 @@ use App\Livewire\FormationManagement;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\DepartmentManagement;
 use App\Http\Controllers\EmployeeController;
-use App\Models\Employee;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,9 +19,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/departments', DepartmentManagement::class)->name('departments.index');
     Route::get('/formations', FormationManagement::class)->name('formations.index');

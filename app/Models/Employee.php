@@ -32,4 +32,9 @@ class Employee extends Model
     {
         return $this->belongsToMany(Formation::class, 'employee_formation');
     }
+
+    public function vacationRequests()
+    {
+        return $this->hasMany(VacationRequest::class);
+    }
 }
