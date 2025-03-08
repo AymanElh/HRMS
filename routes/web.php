@@ -40,24 +40,30 @@ Route::middleware('role:Admin')->group(function() {
     Route::get('/contracts', ContractManagement::class)->name('contracts.index');
 });
 
+Route::middleware('role:Manager|HR|Employee')->group(function(){
+
+    Route::get('/employees/profile/{employee}', [EmployeeController::class, 'profile'])->name('employees.profile');
+});
 
 
-Route::get('/employees/profile/{employee}', [EmployeeController::class, 'profile'])->name('employees.profile');
+Route::middleware('role:Employee')->group(function() {
+    Route::get('/vacations', function() {
+        return view('vacations.index');
+    })->name('vacations.index');
+    
+    Route::get('/recovery-days', function() {
+        return view('recovery-days.index');
+    })->name('recovery-days.index');
+});
 
 
-Route::get('/vacations', function() {
-    return view('vacations.index');
-})->name('vacations.index');
+Route::middleware('role:HR')->group(function() {
+    Route::get('/vacation-approvals', function () {
+        return view('vacations.approvals');
+    })->name('vacation.approvals');
+    Route::get('/recovery-days-approvals', function() {
+        return view('recovery-days.approvals');
+    })->name('recovery-days.approvals');
+});
 
 
-Route::get('/vacation-approvals', function () {
-    return view('vacations.approvals');
-})->name('vacation.approvals');
-
-Route::get('/recovery-days', function() {
-    return view('recovery-days.index');
-})->name('recovery-days.index');
-
-Route::get('/recovery-days-approvals', function() {
-    return view('recovery-days.approvals');
-})->name('recovery-days.approvals');

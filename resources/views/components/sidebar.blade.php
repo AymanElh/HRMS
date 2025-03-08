@@ -48,11 +48,41 @@
                     </a>
                 </li>
             @endcan
-            <li>
-                <a href="" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
-                    Vacation Request
-                </a>
-            </li>
+            @can('make vacation request')
+                <li>
+                    <a href="{{ route('vacations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Vacation Request
+                    </a>
+                </li>
+            @endcan
+            @can('approve vacation request')
+                <li>
+                    <a href="{{ route('vacations.approvals') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Manage Vacations Request
+                    </a>
+                </li>
+            @endcan
+            @can('make recover day request')
+                <li>
+                    <a href="{{ route('recovery-days.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Make recovery Request
+                    </a>
+                </li>
+            @endcan
+            @can('Approve recover days')
+                <li>
+                    <a href="{{ route('vacations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Manage Recover Requests
+                    </a>
+                </li>
+            @endcan
+            @can('see profile')
+                <li>
+                    <a href="{{ route('employees.profile', auth()->user()->id) }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        See Profile
+                    </a>
+                </li>
+            @endcan
         </ul>
     </nav>
 </div>

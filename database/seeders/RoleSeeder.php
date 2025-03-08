@@ -27,6 +27,13 @@ class RoleSeeder extends Seeder
         $permissionManageFormations = Permission::create(['name' => 'Manage Formations']);
         $permissionManageEmployees = Permission::create(['name' => 'Manage Employees']);
         $permissionManageJobs = Permission::create(['name' => 'Manage Jobs']);
+        $permissionMakeVacationRequest = Permission::create(['name' => 'make vacation request']);
+        $permissionApproveVacationRequest = Permission::create(['name' => 'approve vacation request']);
+        $permissionRecoverDayRequest = Permission::create(['name' => 'make recover day request']);
+        $permissionApproveRecoverDays = Permission::create(['name' => 'approve recover days']);
+        $permissionSeeProfile = Permission::create(['name' => 'see profile']);
+
+
 
         $roleAdmin->givePermissionTo($permissionManageUsers);
         $roleAdmin->givePermissionTo($permissionManageDepartments);
@@ -34,6 +41,34 @@ class RoleSeeder extends Seeder
         $roleAdmin->givePermissionTo($permissionManageFormations);
         $roleAdmin->givePermissionTo($permissionManageFormations);
         $roleAdmin->givePermissionTo($permissionManageJobs);
+        $roleAdmin->givePermissionTo($permissionManageEmployees);
+        $roleHR = Role::findByName('HR');
+        $roleManager = Role::findByName('Manager');
+        $roleEmployee = Role::findByName('Employee');
+        $roleHR->givePermissionTo([
+            $permissionManageEmployees,
+            $permissionsManageContracts,
+            $permissionManageFormations,
+            $permissionApproveVacationRequest,
+            $permissionApproveRecoverDays,
+            $permissionMakeVacationRequest,
+            $permissionRecoverDayRequest,
+            $permissionSeeProfile
+        ]);
+
+        $roleManager->givePermissionTo([
+            $permissionApproveVacationRequest,
+            $permissionMakeVacationRequest,
+            $permissionRecoverDayRequest,
+            $permissionSeeProfile
+        ]);
+
+        $roleEmployee->givePermissionTo([
+            $permissionMakeVacationRequest,
+            $permissionRecoverDayRequest,
+            $permissionSeeProfile
+        ]);
+        
 
         $user = User::find(1);
         $user->assignRole($roleAdmin);
