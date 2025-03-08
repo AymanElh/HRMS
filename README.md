@@ -14,7 +14,7 @@ A Laravel-based HR management system for managing employees, departments, and ti
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/HRMS.git
+git clone https://github.com/AymanElh/HRMS.git
 cd HRMS
 
 # Install dependencies
