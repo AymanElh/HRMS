@@ -70,3 +70,7 @@ Route::middleware('role:HR')->group(function() {
         return view('recovery-days.approvals');
     })->name('recovery-days.approvals');
 });
+
+Route::get('/hearchy', function() {
+    return view('organigram.hearchy');
+})->name('hearchy');
