@@ -57,7 +57,7 @@
             @endcan
             @can('approve vacation request')
                 <li>
-                    <a href="{{ route('vacations.approvals') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                    <a href="{{ route('vacation.approvals') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
                         Manage Vacations Request
                     </a>
                 </li>
@@ -69,17 +69,17 @@
                     </a>
                 </li>
             @endcan
-            @can('Approve recover days')
+            @can('approve recover days')
                 <li>
-                    <a href="{{ route('vacations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
-                        Manage Recover Requests
+                    <a href="{{ route('recovery-days.approvals') }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        Recover Days Management
                     </a>
                 </li>
             @endcan
             @can('see profile')
                 <li>
                     <a href="{{ route('employees.profile', auth()->user()->id) }}" class="block px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
-                        See Profile
+                        Profile
                     </a>
                 </li>
             @endcan
